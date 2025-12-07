@@ -1,0 +1,50 @@
+
+@if (article(); as article) {
+  <div class="bg-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        
+        <!-- Main Article Content -->
+        <main class="lg:col-span-2">
+          <article>
+            <header>
+              <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">{{ article.title }}</h1>
+              <p class="mt-4 text-lg text-gray-500">
+                Veröffentlicht am {{ article.date }} von {{ article.author }}
+              </p>
+            </header>
+            
+            <img [ngSrc]="article.imageUrl" [alt]="article.title" width="800" height="400" class="my-8 rounded-lg shadow-lg w-full object-cover aspect-video">
+            
+            <div class="prose prose-lg max-w-none text-gray-700" [innerHTML]="article.content"></div>
+          </article>
+        </main>
+
+        <!-- Sidebar: Other Articles -->
+        <aside>
+          <div class="sticky top-24">
+            <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+              <h3 class="text-xl font-bold text-gray-800 mb-4">Weitere Artikel</h3>
+              <ul class="space-y-4">
+                @for(otherArticle of otherArticles(); track otherArticle.slug) {
+                  @if (otherArticle.slug !== article.slug) {
+                    <li>
+                      <a [routerLink]="['/ratgeber', otherArticle.slug]" class="block group">
+                        <p class="font-semibold text-gray-800 group-hover:text-yellow-700 transition-colors">{{ otherArticle.title }}</p>
+                        <p class="text-sm text-gray-500">{{ otherArticle.date }}</p>
+                      </a>
+                    </li>
+                  }
+                }
+              </ul>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="text-center py-24">
+    <p class="text-xl text-gray-600">Artikel wird geladen...</p>
+  </div>
+}

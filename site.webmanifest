@@ -1,0 +1,86 @@
+{
+  "name": "Hoffmann Blitz & Blank - Entrümpelung & Haushaltsauflösung",
+  "short_name": "Blitz & Blank",
+  "description": "Professionelle Entrümpelung, Haushaltsauflösung, Reinigung und Transporte in NRW",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#fbd200",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "de-DE",
+  "categories": ["business", "utilities"],
+  "icons": [
+    {
+      "src": "/assets/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/assets/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/assets/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/assets/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/assets/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/assets/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/assets/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/assets/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Kostenrechner",
+      "short_name": "Rechner",
+      "description": "Kosten für Entrümpelung berechnen",
+      "url": "/kostenrechner",
+      "icons": [{ "src": "/assets/icons/calculator.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Jetzt anrufen",
+      "short_name": "Anrufen",
+      "description": "Direkter Kontakt",
+      "url": "tel:017681281360"
+    },
+    {
+      "name": "Standorte",
+      "short_name": "Standorte",
+      "description": "Unsere Standorte in NRW",
+      "url": "/standorte"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
+}

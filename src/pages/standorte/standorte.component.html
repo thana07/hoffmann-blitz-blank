@@ -1,0 +1,250 @@
+<!-- Hero Section -->
+<section class="relative min-h-[50vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+  <!-- Background Effects -->
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute -top-40 -right-40 w-96 h-96 bg-brand-500/10 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-brand-500/10 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-500/5 rounded-full blur-[100px]"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+    <span class="inline-flex items-center gap-2 px-4 py-2 bg-brand-500/20 border border-brand-500/30 rounded-full text-brand-400 text-sm font-medium mb-6">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+      10+ Standorte in NRW
+    </span>
+    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+      Unsere <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-brand-500">Standorte</span>
+    </h1>
+    <p class="text-xl text-slate-400 max-w-3xl mx-auto mb-8">
+      Immer in Ihrer Nähe – finden Sie den passenden Ansprechpartner vor Ort für Entrümpelung, Reinigung und Transporte.
+    </p>
+    <a href="tel:017681281360"
+       class="inline-flex items-center gap-3 px-8 py-4 bg-brand-500 text-slate-900 font-bold rounded-xl hover:bg-brand-400 transition-all duration-300 shadow-lg shadow-brand-500/30">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+      </svg>
+      0176 81281360
+    </a>
+  </div>
+</section>
+
+<!-- Locations Grid -->
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Section Header -->
+    <div class="text-center mb-16">
+      <span class="inline-block px-4 py-2 bg-brand-100 text-brand-600 rounded-full text-sm font-medium mb-4">
+        Regionale Präsenz
+      </span>
+      <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+        Wählen Sie Ihren Standort
+      </h2>
+      <p class="text-slate-600 max-w-2xl mx-auto">
+        Klicken Sie auf einen Standort für lokale Kontaktinformationen und spezifische Angebote in Ihrer Region.
+      </p>
+    </div>
+
+    <!-- Locations Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      @for(location of locations(); track location.slug) {
+        <a [routerLink]="location.legacyUrl || ['/standort', location.slug]"
+           class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-slate-100 hover:border-brand-200 hover:-translate-y-1">
+          <div class="p-6">
+            <!-- Icon -->
+            <div class="w-12 h-12 bg-brand-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-brand-500 transition-colors">
+              <svg class="w-6 h-6 text-brand-600 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
+            <!-- Content -->
+            <h3 class="text-xl font-bold text-slate-900 mb-2 group-hover:text-brand-600 transition-colors">
+              {{ location.name }}
+            </h3>
+            <p class="text-slate-500 text-sm mb-4 line-clamp-2">
+              {{ location.address }}
+            </p>
+            <!-- Link -->
+            <div class="flex items-center text-brand-600 font-semibold">
+              <span>Mehr erfahren</span>
+              <svg class="w-5 h-5 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        </a>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- Service Areas Map Section -->
+<section class="py-20 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <!-- Left: Content -->
+      <div>
+        <span class="inline-block px-4 py-2 bg-brand-500/20 border border-brand-500/30 rounded-full text-brand-400 text-sm font-medium mb-6">
+          Unser Einzugsgebiet
+        </span>
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+          Wir sind in ganz NRW für Sie da
+        </h2>
+        <p class="text-slate-400 text-lg leading-relaxed mb-8">
+          Mit über 10 Standorten im Ruhrgebiet und darüber hinaus sind wir immer schnell bei Ihnen vor Ort. Kurze Anfahrtswege bedeuten für Sie: schnellere Termine und faire Preise.
+        </p>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="flex items-center gap-3 text-white">
+            <div class="w-10 h-10 bg-brand-500/20 rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <span>Ruhrgebiet</span>
+          </div>
+          <div class="flex items-center gap-3 text-white">
+            <div class="w-10 h-10 bg-brand-500/20 rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <span>Düsseldorf & Umgebung</span>
+          </div>
+          <div class="flex items-center gap-3 text-white">
+            <div class="w-10 h-10 bg-brand-500/20 rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <span>Wuppertal & Bergisches</span>
+          </div>
+          <div class="flex items-center gap-3 text-white">
+            <div class="w-10 h-10 bg-brand-500/20 rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <span>Niederrhein</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Stats -->
+      <div class="grid grid-cols-2 gap-6">
+        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/10">
+          <div class="text-4xl md:text-5xl font-bold text-brand-400 mb-2">10+</div>
+          <div class="text-slate-400">Standorte</div>
+        </div>
+        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/10">
+          <div class="text-4xl md:text-5xl font-bold text-brand-400 mb-2">15+</div>
+          <div class="text-slate-400">Jahre Erfahrung</div>
+        </div>
+        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/10">
+          <div class="text-4xl md:text-5xl font-bold text-brand-400 mb-2">5000+</div>
+          <div class="text-slate-400">Projekte</div>
+        </div>
+        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/10">
+          <div class="text-4xl md:text-5xl font-bold text-brand-400 mb-2">24h</div>
+          <div class="text-slate-400">Reaktionszeit</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-20 bg-slate-50">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <span class="inline-block px-4 py-2 bg-brand-100 text-brand-600 rounded-full text-sm font-medium mb-4">
+        Häufige Fragen
+      </span>
+      <h2 class="text-3xl md:text-4xl font-bold text-slate-900">
+        Fragen zu unseren Standorten
+      </h2>
+    </div>
+
+    <div class="space-y-4">
+      <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+        <div class="p-6">
+          <h3 class="font-bold text-slate-900 text-lg mb-2">Welche Städte decken Sie ab?</h3>
+          <p class="text-slate-600">
+            Wir sind in über 10 Städten in NRW vertreten, darunter Essen, Düsseldorf, Ratingen, Wuppertal, Mülheim an der Ruhr, Krefeld, Solingen und weitere Städte im Ruhrgebiet und Umgebung.
+          </p>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+        <div class="p-6">
+          <h3 class="font-bold text-slate-900 text-lg mb-2">Kommen Sie auch in meine Stadt, wenn sie nicht aufgelistet ist?</h3>
+          <p class="text-slate-600">
+            Auch wenn Ihre Stadt nicht explizit aufgeführt ist, sind wir wahrscheinlich für Sie erreichbar. Rufen Sie uns einfach an – wir prüfen gerne, ob wir auch in Ihrer Region tätig werden können.
+          </p>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+        <div class="p-6">
+          <h3 class="font-bold text-slate-900 text-lg mb-2">Gibt es einen Mindestauftragswert?</h3>
+          <p class="text-slate-600">
+            Wir haben keinen festen Mindestauftragswert, allerdings kann bei sehr kleinen Aufträgen oder großen Entfernungen eine Anfahrtspauschale anfallen. Kontaktieren Sie uns für ein individuelles Angebot.
+          </p>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+        <div class="p-6">
+          <h3 class="font-bold text-slate-900 text-lg mb-2">Wie schnell können Sie vor Ort sein?</h3>
+          <p class="text-slate-600">
+            Dank unserer vielen Standorte können wir in der Regel innerhalb von 24-48 Stunden bei Ihnen sein. Bei dringenden Fällen bieten wir auch Express-Service am selben Tag an.
+          </p>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+        <div class="p-6">
+          <h3 class="font-bold text-slate-900 text-lg mb-2">Sind die Preise an allen Standorten gleich?</h3>
+          <p class="text-slate-600">
+            Unsere Basispreise sind einheitlich. Der Endpreis richtet sich nach dem individuellen Aufwand Ihres Projekts, nicht nach dem Standort. Wir erstellen Ihnen immer ein faires, transparentes Angebot.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-16 bg-gradient-to-r from-brand-500 to-brand-600">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-4">
+      Ihr Standort nicht dabei?
+    </h2>
+    <p class="text-lg text-slate-800 mb-8">
+      Rufen Sie uns an – wir sind flexibel und kommen auch zu Ihnen!
+    </p>
+    <div class="flex flex-wrap gap-4 justify-center">
+      <a href="tel:017681281360"
+         class="inline-flex items-center gap-3 px-8 py-4 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-all duration-300 transform hover:scale-105 shadow-lg">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+        </svg>
+        0176 81281360
+      </a>
+      <a href="mailto:info@hoffmannblitz-blank.de"
+         class="inline-flex items-center gap-3 px-8 py-4 bg-white/20 text-slate-900 font-bold rounded-xl hover:bg-white/30 transition-all duration-300 border border-slate-900/20">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+        E-Mail senden
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Form -->
+<app-contact-form></app-contact-form>

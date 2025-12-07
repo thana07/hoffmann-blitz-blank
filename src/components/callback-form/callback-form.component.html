@@ -1,0 +1,29 @@
+<div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md mx-auto">
+  @if (formSubmitted()) {
+    <div class="text-center p-8">
+      <svg class="w-16 h-16 mx-auto text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+      <h3 class="text-2xl font-bold text-gray-800 mt-4">Vielen Dank!</h3>
+      <p class="text-gray-600 mt-2">Wir werden Sie so schnell wie möglich zurückrufen.</p>
+    </div>
+  } @else {
+    <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">Rückruf anfordern</h2>
+    <p class="text-center text-gray-500 mb-8">Hinterlassen Sie Ihren Namen und Ihre Telefonnummer und wir rufen Sie zurück.</p>
+    <form [formGroup]="callbackForm" (ngSubmit)="onSubmit()" novalidate>
+      <div class="space-y-6">
+        <div>
+          <label for="callback-name" class="block text-sm font-medium text-gray-700">Name</label>
+          <input type="text" id="callback-name" formControlName="name" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-400 focus:border-yellow-400" placeholder="Ihr Name">
+        </div>
+        <div>
+          <label for="callback-phone" class="block text-sm font-medium text-gray-700">Telefon</label>
+          <input type="tel" id="callback-phone" formControlName="phone" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-400 focus:border-yellow-400" placeholder="Ihre Telefonnummer">
+        </div>
+      </div>
+      <div class="mt-6">
+        <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-gray-800 bg-[#fbd200] hover:bg-[#e2bd00] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 transition-colors duration-300">
+          Jetzt Rückruf anfordern
+        </button>
+      </div>
+    </form>
+  }
+</div>

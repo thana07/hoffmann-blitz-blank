@@ -1,0 +1,217 @@
+@if (service(); as svc) {
+  @if (location(); as loc) {
+    <div class="bg-white">
+      <!-- Hero Section -->
+      <section class="relative min-h-[50vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        <!-- Background Effects -->
+        <div class="absolute inset-0 overflow-hidden">
+          <div class="absolute -top-40 -right-40 w-96 h-96 bg-brand-500/10 rounded-full blur-3xl"></div>
+          <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-brand-500/10 rounded-full blur-3xl"></div>
+        </div>
+
+        <!-- Content -->
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+          <span class="inline-flex items-center gap-2 px-4 py-2 bg-brand-500/20 border border-brand-500/30 rounded-full text-brand-400 text-sm font-medium mb-6">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            {{ svc.title }} in {{ loc.name }}
+          </span>
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+            {{ svc.title }} in <span class="text-brand-400">{{ loc.name }}</span>
+          </h1>
+          <p class="text-xl text-slate-300 max-w-3xl mx-auto mb-8">
+            Ihr lokaler Experte für professionelle {{ svc.title }} in {{ loc.name }} und Umgebung. Schnell, zuverlässig und zum Festpreis.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <a [href]="'tel:' + loc.phone" class="inline-flex items-center gap-3 px-8 py-4 bg-brand-500 text-white font-bold rounded-xl hover:bg-brand-600 transition-all duration-300 transform hover:scale-105 shadow-lg shadow-brand-500/30">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+              </svg>
+              Jetzt anrufen: {{ loc.phone }}
+            </a>
+            <a routerLink="/kostenrechner" class="inline-flex items-center gap-3 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-medium rounded-xl hover:bg-white/20 transition-all duration-300 border border-white/20">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+              </svg>
+              Kostenrechner
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Main Content -->
+      <section class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+
+            <!-- Left Column: Description -->
+            <div class="lg:col-span-2 space-y-8">
+              <!-- Service Description -->
+              <div class="bg-gradient-to-br from-brand-50 to-white rounded-2xl p-8 shadow-lg">
+                <h2 class="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
+                  <span class="w-10 h-10 bg-brand-500 rounded-lg flex items-center justify-center text-white" [innerHTML]="svc.icon.replace('h-10 w-10', 'h-6 w-6')"></span>
+                  {{ svc.title }} in {{ loc.name }}
+                </h2>
+                <p class="text-slate-700 leading-relaxed text-lg mb-4">{{ svc.longDescription }}</p>
+                <p class="text-slate-600">
+                  Unser erfahrenes Team vor Ort in <strong class="text-brand-600">{{ loc.name }}</strong> steht Ihnen für professionelle {{ svc.title }} zur Verfügung. Wir kennen die Region und können schnell bei Ihnen sein.
+                </p>
+              </div>
+
+              <!-- Location Info -->
+              <div class="bg-slate-50 rounded-2xl p-8">
+                <h3 class="text-xl font-bold text-slate-900 mb-4">Unser Standort {{ loc.name }}</h3>
+                <p class="text-slate-600 mb-4">{{ loc.description }}</p>
+                <div class="flex items-start gap-3 text-slate-600">
+                  <svg class="w-5 h-5 text-brand-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <span>{{ loc.address }}</span>
+                </div>
+              </div>
+
+              <!-- Benefits -->
+              <div class="bg-white rounded-2xl p-8 shadow-md border border-slate-100">
+                <h3 class="text-xl font-bold text-slate-900 mb-6">Ihre Vorteile bei uns</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span class="text-slate-700">Kostenlose Besichtigung</span>
+                  </div>
+                  <div class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span class="text-slate-700">Festpreisgarantie</span>
+                  </div>
+                  <div class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span class="text-slate-700">Schnelle Terminvergabe</span>
+                  </div>
+                  <div class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span class="text-slate-700">Besenreine Übergabe</span>
+                  </div>
+                  <div class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span class="text-slate-700">Umweltgerechte Entsorgung</span>
+                  </div>
+                  <div class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span class="text-slate-700">Vollversichert</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column: Quick Actions -->
+            <aside class="space-y-6">
+              <div class="sticky top-24 space-y-6">
+                <!-- Contact Card -->
+                <div class="bg-gradient-to-br from-slate-900 to-slate-800 p-6 rounded-2xl shadow-xl text-white">
+                  <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                    <span class="text-brand-400">⚡</span> Jetzt Kontakt aufnehmen
+                  </h3>
+                  <div class="space-y-4">
+                    <a [href]="'tel:' + loc.phone"
+                       class="flex items-center justify-center gap-2 w-full py-4 bg-brand-500 text-white font-bold rounded-xl hover:bg-brand-400 transition-all duration-300 transform hover:scale-[1.02]">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                      </svg>
+                      {{ loc.phone }}
+                    </a>
+                    <a [href]="'mailto:' + loc.email"
+                       class="flex items-center justify-center gap-2 w-full py-3 bg-white/10 text-white font-medium rounded-xl hover:bg-white/20 transition-all duration-300 border border-white/20">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                      E-Mail senden
+                    </a>
+                  </div>
+                </div>
+
+                <!-- Other Services in Location -->
+                <div class="bg-slate-50 p-6 rounded-2xl">
+                  <h4 class="font-bold text-slate-900 mb-4">Weitere Services in {{ loc.name }}</h4>
+                  <div class="space-y-2">
+                    @for (otherSvc of otherServices(); track otherSvc.slug) {
+                      @if (otherSvc.slug !== svc.slug) {
+                        <a [routerLink]="['/', otherSvc.slug + '-in-' + loc.slug]"
+                           class="flex items-center gap-2 p-2 rounded-lg text-slate-600 hover:text-brand-600 hover:bg-white transition-all group">
+                          <span class="text-brand-500" [innerHTML]="otherSvc.icon.replace('h-10 w-10', 'h-4 w-4')"></span>
+                          <span class="text-sm">{{ otherSvc.title }}</span>
+                        </a>
+                      }
+                    }
+                  </div>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="py-20 bg-slate-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center mb-12">
+            <span class="inline-flex items-center gap-2 px-4 py-2 bg-brand-100 text-brand-600 rounded-full text-sm font-medium mb-4">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Häufige Fragen
+            </span>
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              FAQ zu {{ svc.title }} in {{ loc.name }}
+            </h2>
+          </div>
+
+          <div class="space-y-4">
+            <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6">
+              <h3 class="text-lg font-bold text-slate-900 mb-3">Was kostet {{ svc.title }} in {{ loc.name }}?</h3>
+              <p class="text-slate-600">Die Kosten richten sich nach dem Umfang der Arbeiten. Wir bieten eine kostenlose Besichtigung und erstellen ein verbindliches Festpreisangebot ohne versteckte Kosten.</p>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6">
+              <h3 class="text-lg font-bold text-slate-900 mb-3">Wie schnell sind Sie in {{ loc.name }} vor Ort?</h3>
+              <p class="text-slate-600">Durch unseren lokalen Standort können wir in der Regel innerhalb von 24-48 Stunden einen Besichtigungstermin anbieten. Bei dringenden Fällen ist auch ein Express-Service möglich.</p>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6">
+              <h3 class="text-lg font-bold text-slate-900 mb-3">Sind Sie für {{ svc.title }} versichert?</h3>
+              <p class="text-slate-600">Ja, wir sind vollständig haftpflichtversichert. Sollte während unserer Arbeit ein Schaden entstehen, ist dieser komplett abgedeckt.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Contact Form -->
+    <app-contact-form />
+  } @else {
+    <div class="min-h-screen flex items-center justify-center bg-slate-50">
+      <div class="text-center">
+        <p class="text-xl text-slate-600">Standort nicht gefunden</p>
+        <a routerLink="/standorte" class="mt-4 inline-block text-brand-600 hover:underline">Alle Standorte anzeigen</a>
+      </div>
+    </div>
+  }
+} @else {
+  <div class="min-h-screen flex items-center justify-center bg-slate-50">
+    <div class="text-center">
+      <p class="text-xl text-slate-600">Service nicht gefunden</p>
+      <a routerLink="/dienstleistungen" class="mt-4 inline-block text-brand-600 hover:underline">Alle Dienstleistungen anzeigen</a>
+    </div>
+  </div>
+}

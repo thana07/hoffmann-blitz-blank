@@ -1,0 +1,27 @@
+
+<div class="bg-gray-50">
+  <!-- Header Section -->
+  <div class="bg-[#fbd200] text-gray-800 py-16 text-center">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-4xl md:text-5xl font-extrabold">Unser Ratgeber</h1>
+      <p class="mt-4 text-lg text-gray-600">Nützliche Tipps und Informationen rund um Entrümpelung, Reinigung und Umzug.</p>
+    </div>
+  </div>
+
+  <!-- Articles Grid -->
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      @for(article of articles(); track article.slug) {
+        <a [routerLink]="['/ratgeber', article.slug]" class="block bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden group">
+          <img [ngSrc]="article.imageUrl" [alt]="article.title" width="800" height="400" class="w-full h-48 object-cover">
+          <div class="p-6">
+            <p class="text-sm text-gray-500 mb-2">{{ article.date }}</p>
+            <h3 class="text-xl font-bold text-gray-800 mb-3 group-hover:text-yellow-700 transition-colors">{{ article.title }}</h3>
+            <p class="text-gray-600 mb-4">{{ article.summary }}</p>
+            <span class="font-semibold text-yellow-600">Weiterlesen &rarr;</span>
+          </div>
+        </a>
+      }
+    </div>
+  </div>
+</div>

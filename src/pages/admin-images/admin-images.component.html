@@ -1,0 +1,271 @@
+<div class="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-12 px-4">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-white mb-4">
+        <span class="text-brand-500">⚡</span> Bild-Generator
+      </h1>
+      <p class="text-slate-400 text-lg">
+        Generiere KI-Bilder für alle Seiten mit Fal AI FLUX
+      </p>
+      <p class="text-green-400 mt-2">
+        {{ imageService.imageAssets().length }} Bilder verfügbar | {{ generatedCount }} generiert
+      </p>
+    </div>
+
+    <!-- Progress Bar -->
+    @if (imageService.isGenerating()) {
+      <div class="mb-8 glassmorphism rounded-2xl p-6">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-white font-medium">
+            Generiere: {{ imageService.generationProgress().currentName }}
+          </span>
+          <span class="text-brand-400 font-bold">
+            {{ imageService.generationProgress().current }} / {{ imageService.generationProgress().total }}
+          </span>
+        </div>
+        <div class="w-full bg-slate-700 rounded-full h-4 overflow-hidden">
+          <div
+            class="bg-gradient-to-r from-brand-500 to-brand-400 h-full transition-all duration-500 rounded-full animate-pulse"
+            [style.width.%]="(imageService.generationProgress().current / imageService.generationProgress().total) * 100"
+          ></div>
+        </div>
+      </div>
+    }
+
+    <!-- Action Buttons -->
+    <div class="flex flex-wrap gap-4 justify-center mb-8">
+      <button
+        (click)="generateAll()"
+        [disabled]="imageService.isGenerating()"
+        class="px-8 py-4 bg-gradient-to-r from-brand-600 to-brand-500 text-white font-bold rounded-xl
+               hover:from-brand-500 hover:to-brand-400 transition-all duration-300 transform hover:scale-105
+               disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none
+               shadow-lg shadow-brand-500/30 flex items-center gap-3"
+      >
+        <span class="text-2xl">🚀</span>
+        Alle Bilder generieren
+      </button>
+
+      <!-- Export/Import Buttons -->
+      <button
+        (click)="exportUrls()"
+        [disabled]="generatedCount === 0"
+        class="px-6 py-3 bg-green-600 text-white font-medium rounded-xl hover:bg-green-500 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+        <span>💾</span> Backup exportieren
+      </button>
+      <label class="px-6 py-3 bg-blue-600 text-white font-medium rounded-xl hover:bg-blue-500 transition-all duration-300 cursor-pointer flex items-center gap-2">
+        <span>📥</span> Backup importieren
+        <input type="file" accept=".json" (change)="importUrls($event)" class="hidden" />
+      </label>
+      <button
+        (click)="clearAll()"
+        [disabled]="generatedCount === 0"
+        class="px-6 py-3 bg-red-600/50 text-white font-medium rounded-xl hover:bg-red-500 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 border border-red-500/30">
+        <span>🗑️</span> Alle löschen
+      </button>
+
+      <button
+        (click)="generateCategory('hero')"
+        [disabled]="imageService.isGenerating()"
+        class="px-6 py-3 bg-slate-700/50 text-white font-medium rounded-xl hover:bg-slate-600/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed border border-slate-600 flex items-center gap-2">
+        <span>🎯</span> Hero
+      </button>
+      <button
+        (click)="generateCategory('service')"
+        [disabled]="imageService.isGenerating()"
+        class="px-6 py-3 bg-slate-700/50 text-white font-medium rounded-xl hover:bg-slate-600/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed border border-slate-600 flex items-center gap-2">
+        <span>🧹</span> Services
+      </button>
+      <button
+        (click)="generateCategory('location')"
+        [disabled]="imageService.isGenerating()"
+        class="px-6 py-3 bg-slate-700/50 text-white font-medium rounded-xl hover:bg-slate-600/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed border border-slate-600 flex items-center gap-2">
+        <span>📍</span> Standorte
+      </button>
+      <button
+        (click)="generateCategory('gallery')"
+        [disabled]="imageService.isGenerating()"
+        class="px-6 py-3 bg-slate-700/50 text-white font-medium rounded-xl hover:bg-slate-600/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed border border-slate-600 flex items-center gap-2">
+        <span>📸</span> Galerie
+      </button>
+      <button
+        (click)="generateCategory('article')"
+        [disabled]="imageService.isGenerating()"
+        class="px-6 py-3 bg-slate-700/50 text-white font-medium rounded-xl hover:bg-slate-600/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed border border-slate-600 flex items-center gap-2">
+        <span>📰</span> Artikel
+      </button>
+      <button
+        (click)="generateCategory('branding')"
+        [disabled]="imageService.isGenerating()"
+        class="px-6 py-3 bg-slate-700/50 text-white font-medium rounded-xl hover:bg-slate-600/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed border border-slate-600 flex items-center gap-2">
+        <span>⚡</span> Branding
+      </button>
+    </div>
+
+    <!-- Category Filter -->
+    <div class="flex flex-wrap gap-2 justify-center mb-8">
+      @for (cat of categories; track cat.key) {
+        <button
+          (click)="selectCategory(cat.key)"
+          [class.bg-brand-500]="selectedCategory() === cat.key"
+          [class.text-white]="selectedCategory() === cat.key"
+          [class.bg-slate-700/50]="selectedCategory() !== cat.key"
+          [class.text-slate-300]="selectedCategory() !== cat.key"
+          class="px-4 py-2 rounded-full font-medium transition-all duration-300 flex items-center gap-2"
+        >
+          <span>{{ cat.icon }}</span>
+          {{ cat.label }}
+        </button>
+      }
+    </div>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+      <div class="glassmorphism rounded-xl p-4 text-center">
+        <div class="text-3xl font-bold text-brand-400">{{ imageService.imageAssets().length }}</div>
+        <div class="text-slate-400 text-sm">Gesamt</div>
+      </div>
+      <div class="glassmorphism rounded-xl p-4 text-center">
+        <div class="text-3xl font-bold text-green-400">{{ generatedCount }}</div>
+        <div class="text-slate-400 text-sm">Generiert</div>
+      </div>
+      <div class="glassmorphism rounded-xl p-4 text-center">
+        <div class="text-3xl font-bold text-yellow-400">{{ pendingCount }}</div>
+        <div class="text-slate-400 text-sm">Ausstehend</div>
+      </div>
+      <div class="glassmorphism rounded-xl p-4 text-center">
+        <div class="text-3xl font-bold text-blue-400">{{ filteredImages.length }}</div>
+        <div class="text-slate-400 text-sm">Gefiltert</div>
+      </div>
+    </div>
+
+    <!-- Image Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      @for (asset of filteredImages; track asset.id) {
+        <div class="glassmorphism rounded-2xl overflow-hidden group hover:scale-[1.02] transition-all duration-300">
+          <!-- Image Preview -->
+          <div class="relative aspect-video overflow-hidden bg-slate-800">
+            <img
+              [src]="getImageSrc(asset)"
+              [alt]="asset.name"
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              loading="lazy"
+            />
+
+            <!-- Overlay on hover -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent
+                        opacity-0 group-hover:opacity-100 transition-opacity duration-300
+                        flex items-end justify-center pb-4 gap-2">
+              <button
+                (click)="generateSingle(asset.id)"
+                [disabled]="imageService.isGenerating()"
+                class="px-4 py-2 bg-brand-500 text-white rounded-lg font-medium
+                       hover:bg-brand-400 transition-all disabled:opacity-50"
+              >
+                🎨 Generieren
+              </button>
+              <button
+                (click)="copyPrompt(asset.prompt)"
+                class="px-4 py-2 bg-slate-700 text-white rounded-lg font-medium
+                       hover:bg-slate-600 transition-all"
+              >
+                📋 Prompt
+              </button>
+              @if (asset.url) {
+                <button
+                  (click)="downloadImage(asset.url, asset.id)"
+                  class="px-4 py-2 bg-green-600 text-white rounded-lg font-medium
+                         hover:bg-green-500 transition-all"
+                >
+                  ⬇️
+                </button>
+              }
+            </div>
+
+            <!-- Status Badge -->
+            <div class="absolute top-3 right-3">
+              @if (asset.generated) {
+                <span class="px-3 py-1 bg-green-500/90 text-white text-xs font-bold rounded-full">
+                  ✓ Generiert
+                </span>
+              } @else {
+                <span class="px-3 py-1 bg-yellow-500/90 text-white text-xs font-bold rounded-full">
+                  Fallback
+                </span>
+              }
+            </div>
+
+            <!-- Category Badge -->
+            <div class="absolute top-3 left-3">
+              <span class="px-3 py-1 bg-slate-900/80 text-brand-400 text-xs font-bold rounded-full uppercase">
+                {{ asset.category }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Card Content -->
+          <div class="p-4">
+            <h3 class="text-lg font-bold text-white mb-1">{{ asset.name }}</h3>
+            <p class="text-slate-400 text-sm mb-3">{{ asset.description }}</p>
+
+            <!-- Prompt Preview -->
+            <details class="group/details">
+              <summary class="text-brand-400 text-sm cursor-pointer hover:text-brand-300 transition-colors">
+                Prompt anzeigen
+              </summary>
+              <p class="mt-2 text-slate-500 text-xs leading-relaxed bg-slate-800/50 rounded-lg p-3 max-h-32 overflow-y-auto">
+                {{ asset.prompt }}
+              </p>
+            </details>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Empty State -->
+    @if (filteredImages.length === 0) {
+      <div class="text-center py-20">
+        <div class="text-6xl mb-4">🖼️</div>
+        <h3 class="text-xl font-bold text-white mb-2">Keine Bilder gefunden</h3>
+        <p class="text-slate-400">Wähle eine andere Kategorie aus</p>
+      </div>
+    }
+
+    <!-- Instructions -->
+    <div class="mt-12 glassmorphism rounded-2xl p-8">
+      <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+        <span class="text-brand-500">💡</span> Anleitung
+      </h2>
+      <div class="grid md:grid-cols-3 gap-6 text-slate-300">
+        <div>
+          <h3 class="font-bold text-white mb-2">Bilder generieren</h3>
+          <ul class="space-y-2 text-sm">
+            <li>• Klicke auf "Alle Bilder generieren" um alle Bilder auf einmal zu erstellen</li>
+            <li>• Oder wähle eine Kategorie aus um nur diese zu generieren</li>
+            <li>• Einzelne Bilder können durch Hover + "Generieren" erstellt werden</li>
+            <li>• Generierte Bilder werden automatisch gespeichert</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-bold text-white mb-2">Branding Integration</h3>
+          <ul class="space-y-2 text-sm">
+            <li>• Alle Prompts enthalten das Hoffmann Blitz & Blank Branding</li>
+            <li>• Orange/Navy Farbschema wird konsistent verwendet</li>
+            <li>• Lightning Bolt Logo-Element in allen relevanten Bildern</li>
+            <li>• Deutsche Standorte mit lokalen Landmarks</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-bold text-white mb-2">Backup & Speicherung</h3>
+          <ul class="space-y-2 text-sm">
+            <li>• <strong>Bilder werden automatisch</strong> im Browser gespeichert</li>
+            <li>• Mit "Backup exportieren" können Sie alle URLs sichern</li>
+            <li>• "Backup importieren" stellt gespeicherte Bilder wieder her</li>
+            <li>• Bilder erscheinen automatisch auf der Website</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
