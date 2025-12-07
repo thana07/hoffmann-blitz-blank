@@ -20,6 +20,9 @@ export class ContactFormComponent {
   // Theme variant - 'dark' for hero section, 'light' for standalone pages
   @Input() variant: 'dark' | 'light' = 'light';
 
+  // Compact mode for hero section
+  @Input() compact: boolean = false;
+
   // Multi-step wizard state
   currentStep = signal(1);
   totalSteps = 3;
