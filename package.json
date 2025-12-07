@@ -10,7 +10,7 @@
     "dev": "ng serve",
     "build": "ng build",
     "preview": "ng serve --configuration=production",
-    "start": "serve dist -s -l ${PORT:-3000}"
+    "start": "npx serve dist -s -l $PORT"
   },
   "dependencies": {
     "@angular/build": "^21.0.0",
