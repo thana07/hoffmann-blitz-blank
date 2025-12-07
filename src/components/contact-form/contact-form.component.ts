@@ -1,7 +1,8 @@
 
-import { Component, ChangeDetectionStrategy, signal, computed, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, computed, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-contact-form',
@@ -11,6 +12,11 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
   imports: [CommonModule, ReactiveFormsModule],
 })
 export class ContactFormComponent {
+  private http = inject(HttpClient);
+
+  // Web3Forms Access Key - E-Mails gehen an info@hoffmannblitz-blank.de
+  private readonly WEB3FORMS_KEY = '577a1b5c-1072-4438-8eb7-743c34b596f5';
+
   // Theme variant - 'dark' for hero section, 'light' for standalone pages
   @Input() variant: 'dark' | 'light' = 'light';
 
@@ -108,13 +114,35 @@ export class ContactFormComponent {
     if (this.contactForm.valid) {
       this.isSubmitting.set(true);
 
-      // Simulate API call
-      setTimeout(() => {
-        console.log('Form Submitted!', this.contactForm.value);
-        this.isSubmitting.set(false);
-        this.formSubmitted.set(true);
-        this.contactForm.reset();
-      }, 1500);
+      const formData = this.contactForm.value;
+      const serviceLabel = this.serviceOptions.find(s => s.value === formData.service)?.label || formData.service;
+
+      // Web3Forms API call
+      const payload = {
+        access_key: this.WEB3FORMS_KEY,
+        subject: `Neue Anfrage: ${serviceLabel} von ${formData.name}`,
+        from_name: 'Hoffmann Blitz & Blank Website',
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        service: serviceLabel,
+        address: `${formData.street || ''}, ${formData.zip || ''} ${formData.city || ''}`.trim().replace(/^,\s*/, ''),
+        message: formData.message || 'Keine zusätzliche Nachricht',
+      };
+
+      this.http.post('https://api.web3forms.com/submit', payload)
+        .subscribe({
+          next: () => {
+            this.isSubmitting.set(false);
+            this.formSubmitted.set(true);
+            this.contactForm.reset();
+          },
+          error: (err) => {
+            console.error('Fehler beim Senden:', err);
+            this.isSubmitting.set(false);
+            alert('Fehler beim Senden. Bitte versuchen Sie es erneut oder rufen Sie uns an.');
+          }
+        });
     } else {
       this.contactForm.markAllAsTouched();
     }
