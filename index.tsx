@@ -2,7 +2,7 @@
 
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideZonelessChangeDetection } from '@angular/core';
 
 import { AppComponent } from './src/app.component';
@@ -18,7 +18,7 @@ bootstrapApplication(AppComponent, {
         anchorScrolling: 'enabled'
       })
     ),
-    provideHttpClient(),
+    provideHttpClient(withFetch()),
   ],
 }).catch(err => console.error(err));
 

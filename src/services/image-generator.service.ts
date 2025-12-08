@@ -65,7 +65,7 @@ const STORAGE_KEY = 'hbb_generated_images';
 @Injectable({ providedIn: 'root' })
 export class ImageGeneratorService {
 
-  // All image assets with creative prompts - optimized for Flux Pro 1.1 Ultra
+  // All image assets with creative prompts - optimized for SeedDream v4.5 by ByteDance
   readonly imageAssets = signal<ImageAsset[]>([
     // ===== HERO IMAGES =====
     {

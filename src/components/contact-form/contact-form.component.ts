@@ -1,8 +1,7 @@
 
-import { Component, ChangeDetectionStrategy, signal, computed, Input, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectionStrategy, signal, computed, Input, inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-contact-form',
@@ -12,7 +11,7 @@ import { HttpClient } from '@angular/common/http';
   imports: [CommonModule, ReactiveFormsModule],
 })
 export class ContactFormComponent {
-  private http = inject(HttpClient);
+  private platformId = inject(PLATFORM_ID);
 
   // Web3Forms Access Key - E-Mails gehen an info@hoffmannblitz-blank.de
   private readonly WEB3FORMS_KEY = '577a1b5c-1072-4438-8eb7-743c34b596f5';
@@ -113,14 +112,19 @@ export class ContactFormComponent {
     this.contactForm.get('service')?.setValue(value);
   }
 
-  onSubmit(): void {
+  async onSubmit(): Promise<void> {
     if (this.contactForm.valid) {
+      // Only run in browser
+      if (!isPlatformBrowser(this.platformId)) {
+        return;
+      }
+
       this.isSubmitting.set(true);
 
       const formData = this.contactForm.value;
       const serviceLabel = this.serviceOptions.find(s => s.value === formData.service)?.label || formData.service;
 
-      // Web3Forms API call
+      // Web3Forms API call using native fetch (client-side only)
       const payload = {
         access_key: this.WEB3FORMS_KEY,
         subject: `Neue Anfrage: ${serviceLabel} von ${formData.name}`,
@@ -133,19 +137,30 @@ export class ContactFormComponent {
         message: formData.message || 'Keine zusätzliche Nachricht',
       };
 
-      this.http.post('https://api.web3forms.com/submit', payload)
-        .subscribe({
-          next: () => {
-            this.isSubmitting.set(false);
-            this.formSubmitted.set(true);
-            this.contactForm.reset();
+      try {
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
           },
-          error: (err) => {
-            console.error('Fehler beim Senden:', err);
-            this.isSubmitting.set(false);
-            alert('Fehler beim Senden. Bitte versuchen Sie es erneut oder rufen Sie uns an.');
-          }
+          body: JSON.stringify(payload)
         });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.isSubmitting.set(false);
+          this.formSubmitted.set(true);
+          this.contactForm.reset();
+        } else {
+          throw new Error(result.message || 'Unbekannter Fehler');
+        }
+      } catch (err) {
+        console.error('Fehler beim Senden:', err);
+        this.isSubmitting.set(false);
+        alert('Fehler beim Senden. Bitte versuchen Sie es erneut oder rufen Sie uns an: 0176 81281360');
+      }
     } else {
       this.contactForm.markAllAsTouched();
     }

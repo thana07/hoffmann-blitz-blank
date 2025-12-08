@@ -28,8 +28,8 @@ const COMPANY_LOGO_URL = 'https://hoffmannblitz-blank.de/wp-content/uploads/2021
 export class FalAiService {
   private readonly FAL_API_KEY = 'dff37094-c457-4e25-9c72-739ea521fa89:f4376ce9e9a4fc913e574e55ae93960b';
 
-  // Using Flux Pro 1.1 Ultra for highest quality branded images
-  private readonly FAL_API_URL = 'https://fal.run/fal-ai/flux-pro/v1.1-ultra';
+  // Using SeedDream v4.5 by ByteDance - excellent for branded imagery and logos
+  private readonly FAL_API_URL = 'https://fal.run/fal-ai/bytedance/seedream/v4.5/text-to-image';
 
   // Signal for loading state
   isGenerating = signal(false);
@@ -52,30 +52,44 @@ export class FalAiService {
     this.error.set(null);
 
     try {
-      // Build request body for Flux Pro 1.1 Ultra
+      // Build request body for SeedDream v4.5 by ByteDance
       const requestBody: Record<string, unknown> = {
         prompt: config.prompt,
         num_images: 1,
         enable_safety_checker: true,
-        safety_tolerance: '2',  // Medium tolerance
-        output_format: 'jpeg',
-        raw: false  // Apply model beautification
+        output_format: 'jpeg'
       };
 
-      // Handle aspect ratio or custom dimensions
-      if (config.aspectRatio) {
-        requestBody.aspect_ratio = config.aspectRatio;
-      } else if (config.width && config.height) {
-        // Calculate closest aspect ratio
-        const ratio = config.width / config.height;
-        if (ratio > 1.7) requestBody.aspect_ratio = '21:9';
-        else if (ratio > 1.4) requestBody.aspect_ratio = '16:9';
-        else if (ratio > 1.2) requestBody.aspect_ratio = '4:3';
-        else if (ratio > 0.8) requestBody.aspect_ratio = '1:1';
-        else if (ratio > 0.6) requestBody.aspect_ratio = '3:4';
-        else requestBody.aspect_ratio = '9:16';
+      // Handle image size - SeedDream uses image_size with specific dimensions
+      if (config.width && config.height) {
+        requestBody.image_size = {
+          width: config.width,
+          height: config.height
+        };
+      } else if (config.aspectRatio) {
+        // Map aspect ratio to dimensions
+        const aspectMap: Record<string, { width: number; height: number }> = {
+          '21:9': { width: 1920, height: 820 },
+          '16:9': { width: 1920, height: 1080 },
+          '4:3': { width: 1600, height: 1200 },
+          '1:1': { width: 1024, height: 1024 },
+          '3:4': { width: 1200, height: 1600 },
+          '9:16': { width: 1080, height: 1920 }
+        };
+        requestBody.image_size = aspectMap[config.aspectRatio] || { width: 1920, height: 1080 };
       } else {
-        requestBody.aspect_ratio = '16:9';  // Default for web
+        // Default to 16:9 landscape
+        requestBody.image_size = { width: 1920, height: 1080 };
+      }
+
+      // Add guidance scale if specified
+      if (config.guidanceScale) {
+        requestBody.guidance_scale = config.guidanceScale;
+      }
+
+      // Add negative prompt if specified
+      if (config.negativePrompt) {
+        requestBody.negative_prompt = config.negativePrompt;
       }
 
       const response = await fetch(this.FAL_API_URL, {
