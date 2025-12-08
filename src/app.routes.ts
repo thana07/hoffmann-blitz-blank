@@ -11,7 +11,6 @@ import { DienstleistungenComponent } from './pages/dienstleistungen/dienstleistu
 import { UeberUnsComponent } from './pages/ueber-uns/ueber-uns.component';
 import { RatgeberComponent } from './pages/ratgeber/ratgeber.component';
 import { RatgeberDetailComponent } from './pages/ratgeber-detail/ratgeber-detail.component';
-import { KostenrechnerComponent } from './pages/kostenrechner/kostenrechner.component';
 import { AdminImagesComponent } from './pages/admin-images/admin-images.component';
 import { GalerieComponent } from './pages/galerie/galerie.component';
 
@@ -136,7 +135,6 @@ export const APP_ROUTES: Routes = [
   { path: 'ratgeber', component: RatgeberComponent, title: 'Ratgeber | Hoffmann Blitz & Blank' },
   { path: 'ratgeber/:slug', component: RatgeberDetailComponent },
   { path: 'galerie', component: GalerieComponent, title: 'Galerie | Hoffmann Blitz & Blank' },
-  { path: 'kostenrechner', component: KostenrechnerComponent, title: 'Kostenrechner | Hoffmann Blitz & Blank' },
   { path: 'admin/images', component: AdminImagesComponent, title: 'Bild-Generator | Admin' },
 
   // === FALLBACK ===
